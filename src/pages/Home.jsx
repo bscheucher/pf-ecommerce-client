@@ -6,28 +6,96 @@ import ProductCard from "../components/Products/ProductCard";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [latestProduct, setLatestProduct] = useState(null);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  const [bestSellers, setBestSellers] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await getAllProducts();
-        setProducts(response.data.data);
+        const allProducts = response.data.data;
+        setProducts(allProducts);
+
+        // Get the latest product (based on creation date)
+        const latest = allProducts.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )[0];
+        setLatestProduct(latest);
+
+        // Randomly select 3 featured products
+        const featured = allProducts
+          .filter((product) => product.featured)
+          .slice(0, 3);
+        setFeaturedProducts(featured);
+
+        // Simulate trending products by randomly picking products
+        const trending = allProducts
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3);
+        setTrendingProducts(trending);
+
+        // Simulate best sellers by picking the top 3 products (e.g., most stock left or some other criteria)
+        const bestSellers = allProducts
+          .sort((a, b) => b.stock - a.stock)
+          .slice(0, 3);
+        setBestSellers(bestSellers);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [setProducts]);
 
   return (
     <Container>
       <Hero2 />
-      <Row>
-        {products.map((product) => (
-          <ProductCard product={product} />
-        ))}
-      </Row>
+
+      {/* Latest Product */}
+      {latestProduct && (
+        <div>
+          <h2 className="products-heading">Latest Added</h2>
+          <ProductCard product={latestProduct} />
+        </div>
+      )}
+
+      {/* Featured Products */}
+      {featuredProducts.length > 0 && (
+        <div>
+          <h2 className="products-heading">Featured</h2>
+          <Row>
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Row>
+        </div>
+      )}
+
+      {/* Trending Products */}
+      {trendingProducts.length > 0 && (
+        <div>
+          <h2 className="products-heading">Trending</h2>
+          <Row>
+            {trendingProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Row>
+        </div>
+      )}
+
+      {/* Best Sellers */}
+      {bestSellers.length > 0 && (
+        <div>
+          <h2>Best Sellers</h2>
+          <Row>
+            {bestSellers.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Row>
+        </div>
+      )}
     </Container>
   );
 }

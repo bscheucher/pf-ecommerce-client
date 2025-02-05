@@ -16,6 +16,7 @@ function Checkout() {
   const navigate = useNavigate();
 
   const [userAddresses, setUserAddresses] = useState([]);
+  console.log("User adresses:", userAddresses);
   const [selectedAddressId, setSelectedAddressId] = useState("new");
   const [formData, setFormData] = useState({
     fullName: "",
@@ -33,7 +34,12 @@ function Checkout() {
       const fetchAddressesOfUser = async () => {
         try {
           const response = await getUserAddresses(userId);
-          setUserAddresses(response.data.data || []);
+          const validAddresses = (response.data.addresses || []).filter(
+            (address) =>
+              address.full_name && address.street_address && address.city
+          );
+          setUserAddresses(validAddresses);
+          console.log("Filtered addresses:", validAddresses);
         } catch (error) {
           console.error("Error fetching user addresses:", error);
         }

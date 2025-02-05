@@ -42,6 +42,11 @@ function NavBar() {
                 )}
               </Nav.Link>
             )}
+            {isLoggedIn && (
+              <Nav.Link as={Link} to="/user" className="position-relative">
+                User
+              </Nav.Link>
+            )}
           </Nav>
           <div className="d-flex flex-column flex-lg-row align-items-center gap-2">
             {isLoggedIn ? (

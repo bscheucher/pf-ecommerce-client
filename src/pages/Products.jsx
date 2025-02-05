@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../services/AuthContext";
+import { Link } from "react-router-dom";
 import ProductCard from "../components/Products/ProductCard";
 import CategoryFilter from "../components/Categories/CategoryFilter";
 import Pagination from "../components/Pagination/Pagination";
@@ -12,6 +14,8 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(8);
+
+  const { isAdmin } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -43,8 +47,6 @@ const Products = () => {
     fetchProducts();
   }, [selectedCategory]);
 
-  console.log("Selected Category:", selectedCategory);
-
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -56,6 +58,12 @@ const Products = () => {
   return (
     <div>
       <h1>Products</h1>
+      {isAdmin && (
+        <Link role="button" to={`/products/add`} className="product-add-btn">
+          Add Product
+        </Link>
+      )}
+
       <CategoryFilter
         categories={categories}
         setSelectedCategory={setSelectedCategory}

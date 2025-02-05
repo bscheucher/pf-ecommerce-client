@@ -59,31 +59,48 @@ code {
 }
 
 .add-to-cart-btn,
-.product-detail-btn {
+.product-detail-btn,
+.product-update-btn,
+.product-add-btn,
+.product-delete-btn {
   display: inline-block;
+  width: 10rem;
   padding: 10px 20px;
   margin: 5px;
   font-size: 14px;
   font-weight: bold;
   color: #fff;
-  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   text-transform: uppercase;
   transition: all 0.3s ease;
+  text-align: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.product-detail-btn,
+.product-update-btn,
+.product-add-btn,
+.product-delete-btn {
+  text-decoration: none; /* Remove underline */
+}
+
 .add-to-cart-btn:hover,
-.product-detail-btn:hover {
+.product-detail-btn:hover,
+.product-update-btn:hover,
+.product-add-btn:hover,
+.product-delete-btn:hover {
   background-color: #0056b3;
   transform: scale(1.05);
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .add-to-cart-btn:active,
-.product-detail-btn:active {
+.product-detail-btn:active,
+.product-update-btn:active,
+.product-add-btn:active,
+.product-delete-btn:active {
   transform: scale(0.95);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -104,6 +121,37 @@ code {
 
 .product-detail-btn:hover {
   background-color: #117a8b;
+  color: white;
+}
+
+.product-update-btn {
+  background-color: #b842a6;
+  width: 10rem;
+}
+
+.product-update-btn:hover {
+  background-color: #8b337e;
+  color: white;
+}
+
+.product-add-btn {
+  background-color: #cdc9cc;
+  width: 10.8rem;
+}
+
+.product-add-btn:hover {
+  background-color: #a9a7a9;
+  color: white;
+}
+
+.product-delete-btn {
+  background-color: #ff0000;
+  width: 10rem;
+}
+
+.product-delete-btn:hover {
+  background-color: #ab1616;
+  color: white;
 }
 
 .products {
@@ -138,6 +186,18 @@ code {
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-weight: bold;
+}
+
+.address-select {
+  background-color: #d4f1f4;
+}
+
+.products-heading {
+  margin-top: 1rem;
+}
+
+.hero-container {
+  box-shadow: 5px 6px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* @media (max-width: 768px) {

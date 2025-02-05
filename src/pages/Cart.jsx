@@ -5,9 +5,9 @@ import { useCart } from "../services/CartContext";
 function Cart() {
   const { cart, dispatch } = useCart();
 
-  const handleCheckout = () => {
-    alert("Proceeding to checkout...");
-  };
+  // const handleCheckout = () => {
+  //   alert("Proceeding to checkout...");
+  // };
   const navigate = useNavigate();
 
   return (
@@ -48,7 +48,7 @@ function Cart() {
       {cart.length > 0 && (
         <div className="text-center mt-4">
           <h3 className="fw-bold">
-            Total: $
+            Total: €
             {cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
           </h3>
           <button

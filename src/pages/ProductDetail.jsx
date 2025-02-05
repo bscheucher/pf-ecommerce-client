@@ -91,7 +91,7 @@ function ProductDetail() {
             className="img-fluid product-detail-img"
             alt={product.name}
           />
-          <h2>Price: ${product.price}</h2>
+          <h2>Price: €{product.price}</h2>
         </div>
       </div>
 

@@ -7,7 +7,7 @@ function OrderSummary({ cart, totalAmount }) {
       {cart.map((item) => (
         <div key={item.id}>
           <p>
-            {item.name} x {item.quantity} = ${item.price * item.quantity}
+            {item.name} x {item.quantity} = €{item.price * item.quantity}
           </p>
         </div>
       ))}
