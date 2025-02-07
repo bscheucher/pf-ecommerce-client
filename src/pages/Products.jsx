@@ -8,6 +8,7 @@ import { listCategories } from "../services/categoryService";
 import { getCategoryProducts } from "../services/categoryService";
 import { getAllProducts } from "../services/productService";
 import LoadingIndicator from "../components/Shared/LoadingIndicator";
+import ScrollToTopButton from "../components/Shared/ScrollTopButton";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -89,6 +90,7 @@ const Products = () => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
+      <ScrollToTopButton />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../services/CartContext";
+import ScrollToTopButton from "../components/Shared/ScrollTopButton";
 
 function Cart() {
   const { cart, dispatch } = useCart();
@@ -59,6 +60,7 @@ function Cart() {
           </button>
         </div>
       )}
+      <ScrollToTopButton />
     </div>
   );
 }

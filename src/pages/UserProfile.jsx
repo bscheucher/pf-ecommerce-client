@@ -8,10 +8,12 @@ import {
 } from "../services/adressService";
 import { getUserOrders } from "../services/orderService";
 import { formatDate } from "../services/dateService";
+import LoadingIndicator from "../components/Shared/LoadingIndicator";
+import ScrollToTopButton from "../components/Shared/ScrollTopButton";
 
 const UserProfile = () => {
   const { userId } = useContext(AuthContext);
-  console.log("User ID in User Profile:", userId);
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const [addresses, setAddresses] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -26,24 +28,31 @@ const UserProfile = () => {
   });
 
   const fetchUser = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (!userId) return;
       const response = await getUserById(userId);
       setUser(response.data);
     } catch (error) {
       console.error("Error fetching user:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, [userId]);
 
   const fetchAddresses = useCallback(async () => {
+    setIsLoading(true);
     const response = await getUserAddresses(userId);
     console.log("Addresses in fetchAdresses", response.data);
     setAddresses(response.data.addresses);
+    setIsLoading(false);
   }, [userId]);
 
   const fetchOrders = useCallback(async () => {
+    setIsLoading(true);
     const response = await getUserOrders(userId);
     setOrders(response.data);
+    setIsLoading(false);
   }, [userId]);
 
   useEffect(() => {
@@ -127,7 +136,9 @@ const UserProfile = () => {
       <div className="card p-4 shadow mt-4">
         <h4>Addresses</h4>
 
-        {addresses.length > 0 ? (
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : addresses.length > 0 ? (
           addresses.map((address) => (
             <div key={address.id} className="border p-3 my-2">
               <p>
@@ -224,17 +235,22 @@ const UserProfile = () => {
 
       <div className="card p-4 shadow mt-4">
         <h4>My Orders</h4>
-        {orders.map((order) => (
-          <div key={order.id} className="border p-3 my-2">
-            <p>
-              Order Date: {formatDate(order.created_at)} <br />
-              Price: €{order.total_amount} -
-              <br />
-              Status: {order.status}
-            </p>
-          </div>
-        ))}
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          orders.map((order) => (
+            <div key={order.id} className="border p-3 my-2">
+              <p>
+                Order Date: {formatDate(order.created_at)} <br />
+                Price: €{order.total_amount} -
+                <br />
+                Status: {order.status}
+              </p>
+            </div>
+          ))
+        )}
       </div>
+      <ScrollToTopButton />
     </div>
   );
 };

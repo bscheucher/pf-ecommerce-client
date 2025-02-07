@@ -9,6 +9,7 @@ import AddressSelector from "../components/Addresses/AddressSelector";
 import AddressForm from "../components/Addresses/AddressForm";
 import PaymentMethodSelector from "../components/Payments/PaymentMethodSelector";
 import OrderSummary from "../components/Orders/OrderSummary";
+import ScrollToTopButton from "../components/Shared/ScrollTopButton";
 
 function Checkout() {
   const { cart, dispatch } = useCart();
@@ -98,13 +99,13 @@ function Checkout() {
       const isFormValid = requiredFields.every(
         (field) => formData[field] && formData[field].trim() !== ""
       );
-  
+
       if (!isFormValid) {
         alert("Please fill out all required address fields.");
         return;
       }
     }
-  
+
     try {
       const orderData = {
         userId,
@@ -116,21 +117,21 @@ function Checkout() {
         address: selectedAddressId === "new" ? formData : null,
         paymentMethod: formData.paymentMethod,
       };
-  
+
       const response = await addOrder(orderData);
       const newOrderId = response.data.order;
-  
+
       if (response.status === 201) {
         alert("Order placed successfully!");
         dispatch({ type: "CLEAR_CART" });
         navigate("/order-confirmation");
       }
-  
+
       const newPaymentData = {
         orderId: newOrderId,
         paymentMethod: formData.paymentMethod,
       };
-  
+
       const paymentResponse = await addPayment(newPaymentData);
       console.log("PaymentResponse:", paymentResponse);
     } catch (error) {
@@ -138,7 +139,7 @@ function Checkout() {
       alert("Failed to place order. Please try again.");
     }
   };
-  
+
   return (
     <div className="container my-4">
       <h2 className="text-center">Checkout</h2>
@@ -170,6 +171,7 @@ function Checkout() {
           </button>
         </div>
       </div>
+      <ScrollToTopButton />
     </div>
   );
 }

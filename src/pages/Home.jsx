@@ -3,16 +3,21 @@ import { Container, Row } from "react-bootstrap";
 import { getAllProducts } from "../services/productService";
 import Hero2 from "../components/Home/Hero2";
 import ProductCard from "../components/Products/ProductCard";
+import LoadingIndicator from "../components/Shared/LoadingIndicator";
+
 
 function Home() {
   const [products, setProducts] = useState([]);
+  console.log(products);
   const [latestProduct, setLatestProduct] = useState(null);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true);
       try {
         const response = await getAllProducts();
         const allProducts = response.data.data;
@@ -43,6 +48,8 @@ function Home() {
         setBestSellers(bestSellers);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -54,48 +61,65 @@ function Home() {
       <Hero2 />
 
       {/* Latest Product */}
-      {latestProduct && (
-        <div>
-          <h2 className="products-heading">Latest Added</h2>
-          <ProductCard product={latestProduct} />
-        </div>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        latestProduct && (
+          <div>
+            <h2 className="products-heading">Latest Added</h2>
+            <ProductCard product={latestProduct} />
+          </div>
+        )
       )}
 
       {/* Featured Products */}
-      {featuredProducts.length > 0 && (
-        <div>
-          <h2 className="products-heading">Featured</h2>
-          <Row>
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </Row>
-        </div>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        featuredProducts.length > 0 && (
+          <div>
+            <h2 className="products-heading">Featured</h2>
+            <Row>
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </Row>
+          </div>
+        )
       )}
 
       {/* Trending Products */}
-      {trendingProducts.length > 0 && (
-        <div>
-          <h2 className="products-heading">Trending</h2>
-          <Row>
-            {trendingProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </Row>
-        </div>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        trendingProducts.length > 0 && (
+          <div>
+            <h2 className="products-heading">Trending</h2>
+            <Row>
+              {trendingProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </Row>
+          </div>
+        )
       )}
 
       {/* Best Sellers */}
-      {bestSellers.length > 0 && (
-        <div>
-          <h2>Best Sellers</h2>
-          <Row>
-            {bestSellers.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </Row>
-        </div>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        bestSellers.length > 0 && (
+          <div>
+            <h2>Best Sellers</h2>
+            <Row>
+              {bestSellers.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </Row>
+          </div>
+        )
       )}
+      
     </Container>
   );
 }

@@ -6,6 +6,7 @@ import {
 } from "../services/paymentService";
 import { Card, CardContent } from "../components/Shared/UI";
 import LoadingIndicator from "../components/Shared/LoadingIndicator";
+import ScrollToTopButton from "../components/Shared/ScrollTopButton";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -134,6 +135,7 @@ function AdminOrders() {
           ))}
         </div>
       )}
+      <ScrollToTopButton />
     </div>
   );
 }

@@ -237,6 +237,18 @@ code {
   max-width: 5rem;
 }
 
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.product-grid > * {
+  flex: 1 1 250px; /* Grow and shrink but keep a minimum width */
+  max-width: 300px; /* Optional to prevent stretching */
+}
+
 @media (max-width: 991px) {
   .navbar-collapse {
     text-align: center;
