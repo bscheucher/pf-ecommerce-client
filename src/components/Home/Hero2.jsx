@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Hero2() {
   return (
@@ -12,13 +13,12 @@ function Hero2() {
           amazing deals today.
         </p>
         <div className="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-          <a
-            href="/products"
-            role="button"
+          <Link
+            to="/products"
             className="btn btn-primary btn-lg px-4 me-md-2 fw-bold"
           >
             Shop Now
-          </a>
+          </Link>
         </div>
       </div>
     </div>
