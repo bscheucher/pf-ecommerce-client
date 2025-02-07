@@ -92,8 +92,20 @@ function Checkout() {
   };
 
   const handleCheckout = async () => {
+    if (selectedAddressId === "new") {
+      // Ensure all required fields are filled
+      const requiredFields = ["fullName", "streetAddress", "city", "country"];
+      const isFormValid = requiredFields.every(
+        (field) => formData[field] && formData[field].trim() !== ""
+      );
+  
+      if (!isFormValid) {
+        alert("Please fill out all required address fields.");
+        return;
+      }
+    }
+  
     try {
-      // Prepare order data
       const orderData = {
         userId,
         items: cart.map((item) => ({
@@ -104,22 +116,21 @@ function Checkout() {
         address: selectedAddressId === "new" ? formData : null,
         paymentMethod: formData.paymentMethod,
       };
-
-      // Place the order
+  
       const response = await addOrder(orderData);
       const newOrderId = response.data.order;
-
+  
       if (response.status === 201) {
         alert("Order placed successfully!");
-        dispatch({ type: "CLEAR_CART" }); // Clear cart after successful order
+        dispatch({ type: "CLEAR_CART" });
         navigate("/order-confirmation");
       }
-
+  
       const newPaymentData = {
         orderId: newOrderId,
         paymentMethod: formData.paymentMethod,
       };
-
+  
       const paymentResponse = await addPayment(newPaymentData);
       console.log("PaymentResponse:", paymentResponse);
     } catch (error) {
@@ -127,7 +138,7 @@ function Checkout() {
       alert("Failed to place order. Please try again.");
     }
   };
-
+  
   return (
     <div className="container my-4">
       <h2 className="text-center">Checkout</h2>
