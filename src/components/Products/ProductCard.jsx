@@ -3,13 +3,12 @@ import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useCart } from "../../services/CartContext";
 import { AuthContext } from "../../services/AuthContext";
+import { deleteProduct } from "../../services/productService";
 
 function ProductCard({ product }) {
   const productId = product.id;
   const { dispatch } = useCart();
   const { isLoggedIn, isAdmin } = useContext(AuthContext);
-
-  console.log("Is Admin in Products", isAdmin);
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
@@ -17,6 +16,22 @@ function ProductCard({ product }) {
       return;
     }
     dispatch({ type: "ADD_TO_CART", payload: product });
+  };
+
+  const handleDeleteProduct = async () => {
+    if (!window.confirm("Are you sure you want to delete this product?")) {
+      return;
+    }
+
+    try {
+      await deleteProduct(productId);
+      alert("Product deleted successfully.");
+      // Redirect to another page, e.g., home or products list
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Failed to delete product:", error.message);
+      alert("An error occurred while deleting the product.");
+    }
   };
 
   return (
@@ -54,13 +69,12 @@ function ProductCard({ product }) {
               >
                 Update
               </Link>
-              <Link
-                role="button"
-                to={`/products/${productId.toString()}/delete`}
+              <button
                 className="product-delete-btn"
+                onClick={handleDeleteProduct}
               >
                 Delete
-              </Link>
+              </button>
             </>
           )}
         </div>

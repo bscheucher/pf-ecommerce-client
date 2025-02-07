@@ -14,10 +14,10 @@ function AddProduct() {
       const createdProduct = response.data;
       const productId = createdProduct.id;
       console.log("productCategories in AddProduct", productCategories);
+
       // Wait for all category assignments to complete before navigating
       await Promise.all(
         productCategories.map(async (categoryId) => {
-         
           console.log("Category ID in AddProduct");
           const data = { productId, categoryId };
           const categoryResponse = await addCategoryToProduct(data);
@@ -32,9 +32,17 @@ function AddProduct() {
   };
 
   return (
-    <div>
-      <h2>Add Product</h2>
-      <AddProductForm onSubmit={handleAddProduct} />
+    <div className="container mt-4">
+      <div className="row justify-content-center">
+        <div className="col-md-8 col-lg-6">
+          <div className="card shadow-lg border-0 rounded-3">
+            <div className="card-body">
+              <h2 className="text-center mb-4">Add Product</h2>
+              <AddProductForm onSubmit={handleAddProduct} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,8 @@ import API from "./api";
 
 export const addProduct = (productData) =>
   API.post("/products/add", productData);
+export const searchInProducts = (query) =>
+  API.post(`/products/search`, { query });
 export const getProductById = (productId) => API.get(`/products/${productId}`);
 export const getAllProducts = () => API.get("/products");
 export const updateProduct = (productId, productData) =>

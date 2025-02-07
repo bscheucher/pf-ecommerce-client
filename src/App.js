@@ -11,6 +11,8 @@ import Checkout from "./pages/Checkout";
 import UserProfile from "./pages/UserProfile";
 import AddProduct from "./pages/AddProduct";
 import UpdateProduct from "./pages/UpdateProduct";
+import SearchResultsPage from "./pages/SearchResultsPage";
+import AdminOrders from "./pages/AdminOrders";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/user" element={<UserProfile />} />
         <Route path="/products/add" element={<AddProduct />} />
         <Route path="/products/:id/update" element={<UpdateProduct />} />
+        <Route path="/search" element={<SearchResultsPage />} />
+        <Route path="/admin" element={<AdminOrders />} />
       </Routes>
       <Footer />
     </div>

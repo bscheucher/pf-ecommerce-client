@@ -1,8 +1,8 @@
-// src/components/UpdateProduct.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ProductForm from "../components/Products/AddProductForm";
+import UpdateProductForm from "../components/Products/UpdateProductForm";
 import { getProductById, updateProduct } from "../services/productService";
+import { addCategoryToProduct } from "../services/categoryService";
 
 function UpdateProduct() {
   const { id } = useParams();
@@ -11,7 +11,6 @@ function UpdateProduct() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch the product data when the component mounts.
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -24,38 +23,39 @@ function UpdateProduct() {
         setLoading(false);
       }
     };
-
     fetchProduct();
   }, [id]);
 
-  const handleUpdateProduct = async (updatedData) => {
+  const handleUpdateProduct = async ({ updatedProduct, updatedProductCategories }) => {
     try {
-      const response = await updateProduct(id, updatedData);
+      const response = await updateProduct(id, updatedProduct);
       console.log("Product updated successfully:", response.data);
-      // Navigate to the products list or another appropriate page.
+
+      await Promise.all(
+        updatedProductCategories.map(async (categoryId) => {
+          const data = { productId: id, categoryId };
+          const categoryResponse = await addCategoryToProduct(data);
+          console.log("Category added to product:", categoryResponse);
+        })
+      );
       navigate("/products");
     } catch (error) {
       console.error("Error updating product:", error);
-      // Optionally, display an error message to the user.
     }
   };
 
-  if (loading) {
-    return <div>Loading product data...</div>;
-  }
-
-  if (error) {
-    return <div style={{ color: "red" }}>{error}</div>;
-  }
-
   return (
-    <div>
-      <h2>Update Product</h2>
-      <ProductForm
-        initialValues={initialValues}
-        onSubmit={handleUpdateProduct}
-        submitButtonText="Update Product"
-      />
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      {loading ? (
+        <div className="text-center text-lg font-semibold">Loading product data...</div>
+      ) : error ? (
+        <div className="text-center text-red-500 font-semibold">{error}</div>
+      ) : (
+        <>
+          <h2 className="text-2xl font-bold text-center mb-6">Update Product</h2>
+          <UpdateProductForm initialValues={initialValues} onSubmit={handleUpdateProduct} />
+        </>
+      )}
     </div>
   );
 }

@@ -107,12 +107,21 @@ function Checkout() {
 
       // Place the order
       const response = await addOrder(orderData);
+      const newOrderId = response.data.order;
 
       if (response.status === 201) {
         alert("Order placed successfully!");
         dispatch({ type: "CLEAR_CART" }); // Clear cart after successful order
         navigate("/order-confirmation");
       }
+
+      const newPaymentData = {
+        orderId: newOrderId,
+        paymentMethod: formData.paymentMethod,
+      };
+
+      const paymentResponse = await addPayment(newPaymentData);
+      console.log("PaymentResponse:", paymentResponse);
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Failed to place order. Please try again.");
