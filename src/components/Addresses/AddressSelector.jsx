@@ -15,7 +15,7 @@ function AddressSelector({
           value={selectedAddressId}
         >
           <option value="new" className="address-select">
-            Use a new address
+            Your adresses
           </option>
           {userAddresses.map((address) => (
             <option key={address.id} value={address.id}>
