@@ -110,7 +110,7 @@ function Home() {
       ) : (
         bestSellers.length > 0 && (
           <div>
-            <h2>Best Sellers</h2>
+            <h2 className="products-heading">Best Sellers</h2>
             <Row>
               {bestSellers.map((product) => (
                 <ProductCard key={product.id} product={product} />
